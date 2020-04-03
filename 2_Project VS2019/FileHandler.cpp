@@ -125,13 +125,14 @@ void FileHandler::write(string fileName, Points& dataContainer) {
 		throw error;
 	}
 
-	for (Point p : dataContainer ) {
-		outf	<< p.getCoordinate(0) << " " 
-				<< p.getCoordinate(1) << " " 
-				<< p.getState() << "\n";
+	Points::iterator it = dataContainer.begin();
+	while (it != dataContainer.end()) {
+		outf << it->getCoordinate(0) << " "
+			<< it->getCoordinate(1) << " "
+			<< it->getState() << "\n";
+		it++;
 	}
 
 	outf.close();
 	return;
-	
 }

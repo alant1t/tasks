@@ -116,6 +116,7 @@ void DbscanClusterizer::clusterize() {
 		it++;
 	}
 	
+	// Classify created list.
 	list<Point*>		neighbours; 
 	int nNeighbours = 0;
 	Point* pickedOne;
@@ -154,18 +155,20 @@ void DbscanClusterizer::clusterize() {
 		it++;
 	}
 
+	list<Point*>::iterator jt = neighbours.begin();
 	while (!probablyNoise.empty()) {
 		pickedOne = probablyNoise.front();
 		probablyNoise.pop_front();
 		nNeighbours = findNeighbours(pickedOne, neighbours);
 
 		int state = 0;
-		for (Point* p : neighbours) {
-			state = p->getState();
-			if ( state != 0 ) {
+		while ( jt != neighbours.end() ) {
+			state = (*jt)->getState();
+			if (state != 0) {
 				pickedOne->setState(state);
 				break;
 			}
+			jt++;
 		}
 	}
 
@@ -174,18 +177,20 @@ void DbscanClusterizer::clusterize() {
 	Cluster tempCluster;
 	int clusterKey;
 	map<int, Cluster>::iterator i;
-	for (Point p : m_points) {
-		clusterKey = p.getState();
+	it = m_points.begin();
+	while (it != m_points.end()) {
+		clusterKey = it->getState();
 		i = clusters.find(clusterKey);
 		if (i == clusters.end()) {
-			tempCluster.pushX(p.getCoordinate(0));
-			tempCluster.pushY(p.getCoordinate(1));
+			tempCluster.pushX(it->getCoordinate(0));
+			tempCluster.pushY(it->getCoordinate(1));
 			clusters.emplace(pair<int, Cluster>(clusterKey, tempCluster));
 		}
 		else {
-			i->second.pushX(p.getCoordinate(0));
-			i->second.pushY(p.getCoordinate(1));
+			i->second.pushX(it->getCoordinate(0));
+			i->second.pushY(it->getCoordinate(1));
 		}
+		it++;
 	}
 	m_clusters = clusters;
 }

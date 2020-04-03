@@ -1,13 +1,15 @@
 #include "PointContainer.h"
 
 Point::Point() {
+	m_source = nullptr;
 	m_coordinates.clear();
 	m_state = -1; // not visited
 }
 
 Point::Point(vector<double>& coordinates) {
+	m_source = nullptr;
 	m_coordinates.clear();
-	m_coordinates.swap(coordinates);
+	m_coordinates = coordinates;
 	m_state = -1; // not visited
 }
 
@@ -52,6 +54,13 @@ void Point::setState(int state) {
 	return;
 }
 
+void Point::setSource(void* source) {
+	m_source = source;
+}
+
+void Point::getSource(void* source) {
+	source = m_source;
+}
 
 
 

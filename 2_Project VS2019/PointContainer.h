@@ -25,7 +25,11 @@ public:
 	void	setState(int state);
 	int		getState();
 
+	void	setSource(void* source);
+	void	getSource(void* source);
+
 private:
+	void*			m_source;
 	vector<double>	m_coordinates;
 	int				m_state;		// -1 - not visited; 0 - noise; 1...n - core member of cluster n;
 };
