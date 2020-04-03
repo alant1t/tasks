@@ -92,13 +92,17 @@ void DbscanClusterizer::expandCluster(Point* point, list<Point*>& neighbours, in
 	list<Point*> neighbourNeighbours;
 	int nNeighbours = 0;
 	Point* pickedOne;
+	list<Point*>::iterator it;
 	while ( !neighbours.empty() ) {
 		pickedOne = neighbours.front();
 		neighbours.pop_front();
 		if ( !pickedOne->isVisited() ) {
 			nNeighbours = findNeighbours(pickedOne, neighbourNeighbours);
-			for (Point* p : neighbourNeighbours) {
-				neighbours.push_back(p);
+			
+			it = neighbourNeighbours.begin();
+			while ( it != neighbourNeighbours.end() ) {
+				neighbours.push_back( *(it) );
+				it++;
 			}
 		}
 		pickedOne->setState(clusterNo);
@@ -155,13 +159,14 @@ void DbscanClusterizer::clusterize() {
 		it++;
 	}
 
-	list<Point*>::iterator jt = neighbours.begin();
+	list<Point*>::iterator jt;
 	while (!probablyNoise.empty()) {
 		pickedOne = probablyNoise.front();
 		probablyNoise.pop_front();
 		nNeighbours = findNeighbours(pickedOne, neighbours);
 
 		int state = 0;
+		jt = neighbours.begin();
 		while ( jt != neighbours.end() ) {
 			state = (*jt)->getState();
 			if (state != 0) {
