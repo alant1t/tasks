@@ -1,14 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
-
-
-with open('D:\\text.txt', 'w') as ouf:
-  ouf.write('Some text\n')
-  ouf.write(str(25))
-
-
 # In[6]:
 
 
@@ -36,7 +28,7 @@ with open('D:\\noisy_circles.txt', 'w') as ouf:
 
 n_samples = 1500
 noisy_moons = datasets.make_moons(n_samples=n_samples, noise=.05)
-X, y = noisy_circles
+X, y = noisy_moons
 with open('D:\\noisy_moons.txt', 'w') as ouf:
     for element in X:
         ouf.write(str(element))
@@ -48,6 +40,7 @@ with open('D:\\noisy_moons.txt', 'w') as ouf:
 
 n_samples = 1500
 blobs = datasets.make_blobs(n_samples=n_samples, random_state=8)
+X, y = blobs
 with open('D:\\blobs.txt', 'w') as ouf:
     for element in X:
         ouf.write(str(element))
@@ -60,6 +53,7 @@ with open('D:\\blobs.txt', 'w') as ouf:
 import numpy as np
 n_samples = 1500
 no_structure = np.random.rand(n_samples, 2), None
+X, y = no_structure
 with open('D:\\no_structure.txt', 'w') as ouf:
     for element in X:
         ouf.write(str(element))
@@ -90,13 +84,11 @@ random_state = 170
 varied = datasets.make_blobs(n_samples=n_samples,
                              cluster_std=[1.0, 2.5, 0.5],
                              random_state=random_state)
+X, y = varied
 with open('D:\\varied.txt', 'w') as ouf:
     for element in X:
         ouf.write(str(element))
         ouf.write('\n')
-
-
-# In[ ]:
 
 
 
