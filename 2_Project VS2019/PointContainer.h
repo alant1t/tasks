@@ -35,21 +35,4 @@ private:
 };
 
 typedef list<Point> Points;
-
-class Cluster
-{
-public:
-	Cluster();
-	~Cluster();
-
-	void pushX(double x);
-	void pushY(double y);
-	void setCoords(vector<double>& abscisses, vector<double>& ordinates);
-	void getCoords(vector<double>& abscisses, vector<double>& ordinates);
-
-private:
-	vector<double> m_abscisses;
-	vector<double> m_ordinates;
-};
-
-typedef map<int, Cluster> Clusters;
+typedef map<int, Points> Clusters;

@@ -150,17 +150,26 @@ void ClusterizerDialog::showClusters(Clusters& clusters)
 {
 	vector<double> abscisses;
 	vector<double> ordinates;
-	map<int, Cluster>::iterator i;
+	Clusters::iterator	i;
+	Points::iterator	j;
 
 	i = clusters.begin();
 	while (i != clusters.end()) {
-		i->second.getCoords(abscisses, ordinates);
+		j = i->second.begin();
+		while ( j != i->second.end() ) {
+			abscisses.push_back(j->getCoordinate(0));
+			ordinates.push_back(j->getCoordinate(1));
+			
+			j++;
+		}
 		m_graph->setData(&abscisses, &ordinates);
 		m_graph->plotData();
 		abscisses.clear();
 		ordinates.clear();
+
 		i++;
 	}
+	
 	m_graph->replot();
 	return;
 }

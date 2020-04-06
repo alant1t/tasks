@@ -165,12 +165,12 @@ void DbscanClusterizer::clusterize() {
 		probablyNoise.pop_front();
 		nNeighbours = findNeighbours(pickedOne, neighbours);
 
-		int state = 0;
+		int neighbourState = 0;
 		jt = neighbours.begin();
 		while ( jt != neighbours.end() ) {
-			state = (*jt)->getState();
-			if (state != 0) {
-				pickedOne->setState(state);
+			neighbourState = (*jt)->getState();
+			if (neighbourState != 0) {
+				pickedOne->setState(neighbourState);
 				break;
 			}
 			jt++;
@@ -178,22 +178,23 @@ void DbscanClusterizer::clusterize() {
 	}
 
 	// Create and fill cluster containers.
+	Point tempPoint;
+	Points tempCluster;
 	Clusters clusters;
-	Cluster tempCluster;
+	
 	int clusterKey;
-	map<int, Cluster>::iterator i;
+	Clusters::iterator i;
 	it = m_points.begin();
 	while (it != m_points.end()) {
 		clusterKey = it->getState();
 		i = clusters.find(clusterKey);
 		if (i == clusters.end()) {
-			tempCluster.pushX(it->getCoordinate(0));
-			tempCluster.pushY(it->getCoordinate(1));
-			clusters.emplace(pair<int, Cluster>(clusterKey, tempCluster));
+			tempCluster.push_back(*it);
+			clusters.emplace(pair<int, Points>(clusterKey, tempCluster));
+			tempCluster.clear();
 		}
 		else {
-			i->second.pushX(it->getCoordinate(0));
-			i->second.pushY(it->getCoordinate(1));
+			i->second.push_back(*it);
 		}
 		it++;
 	}

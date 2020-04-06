@@ -62,34 +62,3 @@ void Point::getSource(void* source) {
 	source = m_source;
 }
 
-
-
-Cluster::Cluster()
-{
-}
-
-Cluster::~Cluster()
-{
-}
-
-void Cluster::setCoords(vector<double>& abscisses, vector<double>& ordinates)
-{
-	m_abscisses = abscisses;
-	m_ordinates = ordinates;
-}
-
-void Cluster::getCoords(vector<double>& abscisses, vector<double>& ordinates)
-{
-	abscisses = m_abscisses;
-	ordinates = m_ordinates;
-}
-
-void Cluster::pushX(double x)
-{
-	m_abscisses.push_back(x);
-}
-
-void Cluster::pushY(double y)
-{
-	m_ordinates.push_back(y);
-}

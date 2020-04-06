@@ -68,32 +68,39 @@ void GraphHandler::plotData() {
 
 	// Set graph color
 	QColor color;
+	QCPScatterStyle scatter(QCPScatterStyle::ssDisc, 6);
 	switch (nGraphs)
 	{
 	case 0:
 		color.setRgb(255, 0, 0, 255);
+		//scatter.setShape(QCPScatterStyle::ssCircle);
 		break;
 	case 1:
 		color.setRgb(255, 155, 0, 255);
+		//scatter.setShape(QCPScatterStyle::ssCross);
 		break;
 	case 2:
 		color.setRgb(255, 255, 0, 255);
+		//scatter.setShape(QCPScatterStyle::ssDiamond);
 		break;
 	case 3:
 		color.setRgb(0, 255, 0, 255);
+		//scatter.setShape(QCPScatterStyle::ssSquare);
 		break;
 	case 4:
 		color.setRgb(0, 255, 255, 255);
+		//scatter.setShape(QCPScatterStyle::ssPlus);
 		break;
 	case 5:
 		color.setRgb(255, 0, 255, 255);
+		//scatter.setShape(QCPScatterStyle::ssTriangle);
 		break;
 	}
 	
 	//Отрисовываем график по нашим данным
 	this->graph(nGraphs)->data()->set(m_PointsToPlot);
 	this->graph(nGraphs)->setLineStyle(QCPGraph::lsNone);
-	this->graph(nGraphs)->setScatterStyle(QCPScatterStyle::ssDisc);
+	this->graph(nGraphs)->setScatterStyle(scatter);
 	this->graph(nGraphs)->setPen(QPen(color));
 
 	//Установим область, которая будет показываться на графике
