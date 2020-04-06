@@ -18,11 +18,13 @@ ClusterizerDialog::ClusterizerDialog(QWidget *parent)
 	ui.setupUi(this);
 
 	ui.gridLayout->addWidget(m_graph, 1, 0, 1, 2);
+	ui.refreshButton->setEnabled(false);
 		
 	
 	// Размещаем график
 	connect( ui.readButton, SIGNAL(clicked()), this, SLOT(doTheThing()) );
 	connect( ui.saveButton, SIGNAL(clicked()), this, SLOT(saveData()) );
+	connect( ui.refreshButton, SIGNAL(clicked()), this, SLOT(refresh() ));
 }
 
 ClusterizerDialog::~ClusterizerDialog() 
@@ -35,6 +37,30 @@ ClusterizerDialog::~ClusterizerDialog()
 void ClusterizerDialog::doTheThing() {
 	clear();
 	readData();
+	classifyData();
+	showClusters(m_clusters);
+	ui.refreshButton->setEnabled(true);
+}
+
+void ClusterizerDialog::refresh() {
+	// Check if any data is loaded.
+	if (m_purePoints.empty()) {
+		ui.refreshButton->setEnabled(false);
+		return;
+	}
+
+	// Clear.
+	if (m_fileHandler != nullptr) { m_fileHandler->initialize(); }
+	if (m_clusterizer != nullptr) { m_clusterizer->initialize(); }
+	if (m_graph != nullptr) { m_graph->initialize(); }
+	m_classifiedPoints.clear();
+	m_clusters.clear();
+		
+	// Read user input.
+	m_epsNeighbourhood = ui.epsLineEdit->text().toDouble();
+	m_nRequiredNearby = ui.nReqLineEdit->text().toInt();
+	
+	// Clusterize.
 	classifyData();
 	showClusters(m_clusters);
 }
@@ -65,7 +91,7 @@ void ClusterizerDialog::readData()
 			tempN = ui.nReqLineEdit->text().toInt();
 			tempEps = ui.epsLineEdit->text().toDouble();
 
-			if (tempN == 0) {
+			if (tempN <= 0) {
 				return;
 			}
 

@@ -24,6 +24,7 @@ public:
 
 public slots:
 	void doTheThing();
+	void refresh();
 
 	void readData();
 	void saveData();
